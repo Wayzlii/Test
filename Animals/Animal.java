@@ -1,18 +1,24 @@
 package Homework.Animals;
 
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 public abstract class Animal {
 
     private String name;
     private int age;
     private int weight;
     private String color;
+    private Scanner scanner;
 
     private String ageToString() {
         String result = "";
         if (getAge()%10 == 1) {
             result = "год";
-        } else if (getAge()%10 == 2 || getAge()%10 == 3 || getAge()%10 == 4) {
+        } else if (getAge()%10 >= 2 && getAge()%10 <= 4) {
             result = "года";
+        } else if (getAge()>=11 && getAge()<=20) {
+            result = "лет";
         } else {
             result = "лет";
         }
@@ -34,6 +40,7 @@ public abstract class Animal {
         this.weight = weight;
         this.color = color;
     }
+
     public void toSay() {
         System.out.println("Я говорю");
     }
