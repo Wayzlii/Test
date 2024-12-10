@@ -1,0 +1,8 @@
+CREATE TABLE `animals`.`animalSB` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `type` VARCHAR(45) NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `color` VARCHAR(45) NOT NULL,
+  `age` INT NOT NULL,
+  `weight` INT NOT NULL,
+  PRIMARY KEY (`id`));
