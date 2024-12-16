@@ -1,5 +1,5 @@
 <archetype>
-  <id>java_homework_2_sql</id>
+  <id>java_homework_3_web_driver</id>
   <sources>
     <source>src/main/java/App.java</source>
   </sources>
