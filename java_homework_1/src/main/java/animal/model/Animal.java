@@ -1,4 +1,4 @@
-package animal;
+package animal.model;
 
 public abstract class Animal {
     private String name;
@@ -34,9 +34,10 @@ public abstract class Animal {
     }
     private String getAgeSuffix() {
         String res = "";
-        if (age % 10 == 1) {
+        int ageMod = age % 10;
+        if (ageMod == 1) {
             res = "год";
-        } else if (age % 10 > 1 || age % 10 < 5) {
+        } else if (ageMod > 1 && ageMod < 5) {
             res = "года";
         } else {
             res = "лет";

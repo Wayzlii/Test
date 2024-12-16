@@ -1,5 +1,8 @@
 package animal;
 
+import animal.enums.Commands;
+import animal.model.Animal;
+import animal.util.AnimalBuilder;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -7,18 +10,17 @@ public class Main {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         boolean running = true;
-        ArrayList<Animal> animals = new ArrayList<Animal>();
+        ArrayList<Animal> animals = new ArrayList<>();
         while (running) {
-            System.out.println("Введите команду add/list/exit.");
-            String inputCommand = in.next().trim().toUpperCase();
-            Commands command = Commands.valueOf(inputCommand);
+            Commands command = getCommand(in);
             switch (command) {
                 case ADD:
-                    Animal newAnimal = createAnimal(in);
-                    if (newAnimal != null) {
-                        animals.add(newAnimal);
-                        newAnimal.say();
+                    Animal newAnimal = null;
+                    while (newAnimal == null) {
+                        newAnimal = AnimalBuilder.createAnimal(in);
                     }
+                    animals.add(newAnimal);
+                    newAnimal.say();
                     break;
                 case LIST:
                     for (Animal animal : animals) {
@@ -32,35 +34,15 @@ public class Main {
             }
         }
     }
-
-    private static Animal createAnimal(Scanner in) {
-        System.out.println("Введите тип животного, которого хотите добавить : cat/dog/duck.");
-        String type = in.next().trim().toUpperCase();
-        try {
-            //Если введёный тип не найдет в animalType, то вызывается исключение IllegalArgumentException
-            AnimalType.valueOf(type);
-
-            System.out.println("Введите имя животного.");
-            in.nextLine(); //Непонятная ошибка, пропускает следующий ввод
-            String name = in.nextLine();
-            System.out.println("Введите какого окраса животное.");
-            String color = in.nextLine();
-            System.out.println("Введите возраст животного.");
-            int age = in.nextInt();
-            System.out.println("Введите вес животного.");
-            int weight = in.nextInt();
-
-            switch (type) {
-                case "CAT":
-                    return new Cat(name, age, weight, color);
-                case "DOG":
-                    return new Dog(name, age, weight, color);
-                case "DUCK":
-                    return new Duck(name, age, weight, color);
+    private static Commands getCommand(Scanner scanner) {
+        while (true) {
+            try {
+                System.out.println("Введите команду add/list/exit.");
+                String inputCommand = scanner.next().trim().toUpperCase();
+                return Commands.valueOf(inputCommand);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Вы ввели неверную команду.");
             }
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
         }
-        return null;
     }
 }

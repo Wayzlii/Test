@@ -1,6 +1,8 @@
-package animal;
+package animal.model;
 
-public class Cat extends Animal{
+import animal.model.Animal;
+
+public class Cat extends Animal {
     public Cat(String name, int age, int weight, String color) {
         super(name, age, weight, color);
     }

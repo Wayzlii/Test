@@ -1,6 +1,6 @@
-package animal;
+package animal.model;
 
-public class Duck extends Animal implements Flaying{
+public class Duck extends Animal implements Flaying {
     public Duck(String name, int age, int weight, String color) {
         super(name, age, weight, color);
     }

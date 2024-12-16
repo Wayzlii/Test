@@ -1,4 +1,4 @@
-package animal;
+package animal.enums;
 
 public enum AnimalType {
     CAT,
