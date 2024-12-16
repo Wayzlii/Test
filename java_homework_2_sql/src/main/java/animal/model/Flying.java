@@ -1,5 +1,5 @@
 package animal.model;
 
-public interface Flaying {
+public interface Flying {
     void flay();
 }
