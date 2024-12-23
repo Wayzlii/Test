@@ -1,5 +1,5 @@
 <archetype>
-  <id>java_homework_3_web_driver</id>
+  <id>java_homework_4_first_autotest</id>
   <sources>
     <source>src/main/java/App.java</source>
   </sources>

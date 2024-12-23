@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration status = "ERROR">
+    <Appenders>
+        <Console name = "Console" target = "SYSTEM_OUT">
+            <PatternLayout>
+                <Pattern>%d{HH:mm:ss} [%t] %-5level %logger{36} - %msg%n</Pattern> <!-- Установить выводимое сообещие на консоль -->
+            </PatternLayout>
+        </Console>
+        <File name="FileAppender" fileName="logs/app.log">
+            <PatternLayout>
+                <Pattern>%d{HH:mm:ss} [%t] %-5level %logger{36} - %msg%n</Pattern> <!-- Установить выводимое сообещие на консоль -->
+            </PatternLayout>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level = "INFO"> <!-- Установить минимальный уровень логирования здесь -->
+            <AppenderRef ref = "Console"/>
+            <AppenderRef ref = "FileAppender"/>
+        </Root>
+    </Loggers>
+</Configuration>
