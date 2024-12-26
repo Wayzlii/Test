@@ -4,15 +4,17 @@ import animal.config.TableName;
 import animal.model.Animal;
 import animal.model.AnimalType;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
-public class AddAnimal {
-    private final String commandAdd = "INSERT INTO " + TableName.TableName +
-            " (type, name, color, age, weight) VALUES (?,?,?,?,?)";
+public class UpdateAnimal {
+    private final String commandUpdate = "UPDATE " + TableName.tableName +
+                                         " SET type = ?, name = ?, color = ?, age = ?, weight = ? WHERE id = ?";
 
-
-    public void addAnimal(Connection connection, Animal animal) throws SQLException {
-        try (PreparedStatement statement = connection.prepareStatement(commandAdd)) {
+    public void updateAnimal(Connection connection, Animal animal) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement(commandUpdate)) {
+            statement.setInt(6, animal.getId());
             AnimalType type = animal.getAnimalType();
             statement.setString(1, type.name());
             String name = animal.getName();

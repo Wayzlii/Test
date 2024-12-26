@@ -2,7 +2,6 @@ package animal.util;
 
 import animal.model.*;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class AnimalBuilder {

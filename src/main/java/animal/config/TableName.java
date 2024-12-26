@@ -3,8 +3,8 @@ package animal.config;
 import java.util.Properties;
 
 public class TableName {
-    public static String TableName;
+    public static String tableName;
     public static void setTableName(Properties properties) {
-        TableName = properties.getProperty("name");
+        tableName = properties.getProperty("name");
     }
 }

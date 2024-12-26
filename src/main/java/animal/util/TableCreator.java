@@ -19,7 +19,7 @@ public class TableCreator {
             """;
 
     public static void createTable (Connection connection) throws SQLException {
-        try (PreparedStatement statement = connection.prepareStatement(commandCreate.formatted(TableName.TableName))){
+        try (PreparedStatement statement = connection.prepareStatement(commandCreate.formatted(TableName.tableName))){
             statement.execute();
         }
     }

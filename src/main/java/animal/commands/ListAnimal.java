@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ListAnimal {
-    private final String commandList = "SELECT * FROM " + TableName.TableName;
+    private final String commandList = "SELECT * FROM " + TableName.tableName;
 
     public ArrayList<Animal> listAnimal(Connection connection) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement(commandList)) {

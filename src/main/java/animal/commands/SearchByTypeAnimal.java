@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class SearchByTypeAnimal {
-    private final String commandSearchByType = "SELECT * FROM " + TableName.TableName + " WHERE type = ?";
+    private final String commandSearchByType = "SELECT * FROM " + TableName.tableName + " WHERE type = ?";
 
     public ArrayList<Animal> searchByTypeAnimal(Connection connection, AnimalType type) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement(commandSearchByType)) {
