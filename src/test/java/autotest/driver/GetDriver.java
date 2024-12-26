@@ -35,13 +35,13 @@ public class GetDriver {
     public static void getDriverManager (Browsers browser) {
         switch (browser) {
             case CHROME -> {
-                WebDriverManager.chromedriver();
+                WebDriverManager.chromedriver().setup();
             }
             case FOX -> {
-                WebDriverManager.firefoxdriver();
+                WebDriverManager.firefoxdriver().setup();
             }
             case EDGE -> {
-                WebDriverManager.edgedriver();
+                WebDriverManager.edgedriver().setup();
             }
         }
     }
