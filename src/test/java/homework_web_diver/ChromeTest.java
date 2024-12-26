@@ -19,15 +19,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ChromeTest {
 
     private WebDriver driver;
-    private String URL = "https://otus.home.kartushin.su/training.html";
+    private String url;
     private final Logger logger = LogManager.getLogger(ChromeTest.class);
 
     @BeforeEach
     public void setUp() {
         if (System.getProperty("base.url") != null) {
-            URL = System.getProperty("base.url");
+            url = System.getProperty("base.url");
         }
-        WebDriverManager.chromedriver();
+        WebDriverManager.chromedriver().setup();
     }
 
 
@@ -38,7 +38,7 @@ public class ChromeTest {
         options.addArguments("--headless");
         driver = new ChromeDriver(options);
 
-        driver.get(URL);
+        driver.get(url);
 
         WebElement element = driver.findElement(By.id("textInput"));
         element.sendKeys("ОТУС");
@@ -53,7 +53,7 @@ public class ChromeTest {
         options.addArguments("--kiosk");
         driver = new ChromeDriver(options);
 
-        driver.get(URL);
+        driver.get(url);
 
         WebElement element = driver.findElement(By.id("openModalBtn"));
         element.click();
@@ -74,7 +74,7 @@ public class ChromeTest {
     public void dynamicMessageFormat() {
         driver = new ChromeDriver();
         driver.manage().window().fullscreen();
-        driver.get(URL);
+        driver.get(url);
 
         WebElement element1 = driver.findElement(By.id("name"));
         element1.sendKeys("фыв");
