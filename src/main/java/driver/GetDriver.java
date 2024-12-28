@@ -35,5 +35,21 @@ public class GetDriver {
         }
         return null;
     }
+<<<<<<< HEAD:src/main/java/driver/GetDriver.java
 
+=======
+    public static void getDriverManager (Browsers browser) {
+        switch (browser) {
+            case CHROME -> {
+                WebDriverManager.chromedriver().setup();
+            }
+            case FOX -> {
+                WebDriverManager.firefoxdriver().setup();
+            }
+            case EDGE -> {
+                WebDriverManager.edgedriver().setup();
+            }
+        }
+    }
+>>>>>>> 362d45980ddacf473592b51824b811fdb9c25f16:src/test/java/autotest/driver/GetDriver.java
 }
