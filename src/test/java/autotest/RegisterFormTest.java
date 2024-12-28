@@ -1,7 +1,7 @@
 package autotest;
 
-import autotest.driver.Browsers;
-import autotest.driver.GetDriver;
+import driver.Browsers;
+import driver.GetDriver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
@@ -15,38 +15,32 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 import java.awt.*;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Objects;
-import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RegisterFormTest {
 
     private WebDriver driver;
-    static String name;
-    static String password;
-    static String mail;
-    static String birthday;
-    static String birthdayAssert;
+    private static String name;
+    private static String password;
+    private static String mail;
+    private static String birthday;
+    private static String birthdayAssert;
     private static final Browsers BROWSER = Browsers.FOX;
-    static String URL;
+    private static String url;
 
     private final Logger logger = LogManager.getLogger(RegisterFormTest.class);
 
     @BeforeAll
-    static void beforeAll() throws IOException {
-        InputStream input = ClassLoader.getSystemResourceAsStream("auth.properties");
-        Properties properties = new Properties();
-        properties.load(input);
-        URL = properties.getProperty("url");
-        name = properties.getProperty("login");
-        password = properties.getProperty("password");
-        mail = properties.getProperty("mail");
-        birthday = properties.getProperty("birthday");
-        birthdayAssert = properties.getProperty("birthdayAssert");
-        Objects.requireNonNull(URL);
+    static void beforeAll() {
+        url = System.getProperty("base.url");
+        name = System.getProperty("login");
+        password = System.getProperty("password");
+        mail = System.getProperty("mail");
+        birthday = System.getProperty("birthday");
+        birthdayAssert = System.getProperty("birthdayAssert");
+        Objects.requireNonNull(url);
         Objects.requireNonNull(name);
         Objects.requireNonNull(password);
         Objects.requireNonNull(mail);
@@ -56,9 +50,7 @@ public class RegisterFormTest {
 
     @BeforeEach
     void setUp() {
-
-        GetDriver.getDriverManager(BROWSER);
-        driver = GetDriver.getDriver(BROWSER);
+        this.driver = new GetDriver().getDriver(BROWSER);
     }
 
     @ParameterizedTest
@@ -70,7 +62,7 @@ public class RegisterFormTest {
                     4,native,Носитель языка
                     """)
     public void registrationForm(int elementIndex, String elementValue, String elementName) throws AWTException {
-        driver.get(URL);
+        driver.get(url);
 
         WebElement userName = driver.findElement(By.id("username"));
         userName.sendKeys(name);

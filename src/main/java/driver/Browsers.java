@@ -1,4 +1,4 @@
-package autotest.driver;
+package driver;
 
 public enum Browsers {
     CHROME,
