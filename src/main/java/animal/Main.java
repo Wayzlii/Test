@@ -9,9 +9,8 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
-        boolean running = true;
         ArrayList<Animal> animals = new ArrayList<>();
-        while (running) {
+        while (true) {
             Commands command = getCommand(in);
             switch (command) {
                 case ADD:
@@ -29,8 +28,7 @@ public class Main {
                     break;
                 case EXIT:
                     in.close();
-                    running = false;
-                    break;
+                    System.exit(0);
             }
         }
     }
