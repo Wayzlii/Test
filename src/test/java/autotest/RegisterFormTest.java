@@ -21,32 +21,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RegisterFormTest {
 
-    private WebDriver driver;
-    RegistrationPage registrationPage;
-    private static String name;
-    private static String password;
-    private static String mail;
-    private static String birthday;
-    private static String birthdayAssert;
     private static final Browsers BROWSER =
             Browsers.valueOf(System.getProperty("browser", Browsers.FOX.name()).toUpperCase());
-
+    private WebDriver driver;
+    RegistrationPage registrationPage;
+    private final String name = System.getProperty("login","Linda");
+    private final String password = System.getProperty("password","12345");
+    private final String mail = System.getProperty("mail","123@mail.ru");
+    private final String birthday = System.getProperty("birthday","11102000");
+    private final String birthdayAssert = System.getProperty("birthdayAssert","2000-10-11");
     private final Logger logger = LogManager.getLogger(RegisterFormTest.class);
-
-    @BeforeAll
-    static void beforeAll() {
-        name = System.getProperty("login");
-        password = System.getProperty("password");
-        mail = System.getProperty("mail");
-        birthday = System.getProperty("birthday");
-        birthdayAssert = System.getProperty("birthdayAssert");
-        Objects.requireNonNull(name);
-        Objects.requireNonNull(password);
-        Objects.requireNonNull(mail);
-        Objects.requireNonNull(birthday);
-        Objects.requireNonNull(birthdayAssert);
-    }
-
+    
     @BeforeEach
     void setUp() {
         this.driver = new WebDriverFactory().createDriver(BROWSER);
