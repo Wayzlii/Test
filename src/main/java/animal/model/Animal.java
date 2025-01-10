@@ -35,7 +35,9 @@ public abstract class Animal {
     private String getAgeSuffix() {
         String res = "";
         int ageMod = age % 10;
-        if (ageMod == 1) {
+        if (age % 100 > 9 && age % 100 < 21) {
+            res = "лет";
+        } else if (ageMod == 1) {
             res = "год";
         } else if (ageMod > 1 && ageMod < 5) {
             res = "года";
