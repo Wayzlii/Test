@@ -1,21 +1,19 @@
 package companents;
 
 import common.AbsCommon;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 
 public class NavigationBar extends AbsCommon {
     @FindBy(css = "span[title=\"Обучение\"]")
     private WebElement study;
-    @FindBy(xpath = "//div[@class=\"header3__hamburger\"]/button")
+    @FindBy(xpath = "//button[contains(@class,\"sc-5n5sda-0\") and contains(@class,\"exrzoV\")]")
     private WebElement menu;
-    @FindBy(xpath = "(//a[@href=\"https://otus.ru/categories/testing\"])[position()=1]")
+    @FindBy(xpath = "(//a[contains(@class,\"sc-1pgqitk-0\") and contains(@class,\"dNitgt\")])[contains(text(),\"Тестирование\")]")
     private WebElement testing;
-    @FindBy(xpath = "(//a[@href=\"https://otus.ru/events/near\"])[position()=1]")
+    @FindBy(xpath = "(//a[contains(@class,\"sc-1pgqitk-0\") and contains(@class,\"dNitgt\")])[contains(text(),\"Календарь мероприятий\")]")
     private WebElement calendar;
 
     public NavigationBar(WebDriver driver) {
@@ -24,22 +22,21 @@ public class NavigationBar extends AbsCommon {
 
     public void openStudy() {
         try {
-            menu.click();
-        } catch (NoSuchElementException ignored) {
+            ExpectedConditions.elementToBeClickable(menu).apply(driver).click();
+        } catch (StaleElementReferenceException | NoSuchElementException ignored) {
         }
-        study.click();
+        ExpectedConditions.elementToBeClickable(study).apply(driver).click();
     }
 
     public void openTesting() {
         openStudy();
-        testing.click();
+        ExpectedConditions.elementToBeClickable(testing).apply(driver).click();
     }
 
     public void openCalendar() {
         openStudy();
         try {
-            calendar.click();
-        } catch (TimeoutException ignored) {
-        }
+            ExpectedConditions.elementToBeClickable(calendar).apply(driver).click();
+        } catch (TimeoutException ignored){} //Выпадает ошибка timeOutException. Сделала игнор, так как очень долго приходится ждать ответа от сайта.
     }
 }

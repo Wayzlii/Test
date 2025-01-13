@@ -5,16 +5,17 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class CookiePanel extends AbsCommon {
     public CookiePanel(WebDriver driver) {
         super(driver);
     }
-    @FindBy(xpath = "//div[@class=\"sc-11pdrud-1 cmIXWc\"]/div/button")
+    @FindBy(xpath = "((//*[contains(text(),\"Посещая наш сайт, вы принимаете\")]/ancestor::div)[last()])/descendant::button")
     private WebElement consentButton;
     public void clickConsentBtn() {
         try {
-            consentButton.click();
+            ExpectedConditions.elementToBeClickable(consentButton).apply(driver).click();
         } catch (NoSuchElementException ignored){}
     }
 }

@@ -8,11 +8,11 @@ public class CardPage extends AbsBasePage{
 
     @FindBy (xpath = "//h1")
     private WebElement title;
-    @FindBy (xpath = "//div[@class=\"sc-1x9oq14-0 sc-s2pydo-3 enpOeQ dZDxRw\"]/p")
+    @FindBy (xpath = "//div[contains(@class,\"sc-1x9oq14-0\") and contains(@class,\"sc-s2pydo-3\") and contains(@class,\"enpOeQ\") and contains(@class,\"dZDxRw\")]/p")
     private WebElement description;
-    @FindBy (xpath = "(//p[@class=\"sc-1x9oq14-0 sc-3cb1l3-0 doSDez dgWykw\"])[last()-2]")
+    @FindBy (xpath = "(//div[contains(@class,\"sc-3cb1l3-4\") and contains(@class,\"kGoYMV\")])[last()-2]")
     private WebElement duration;
-    @FindBy (xpath = "(//p[@class=\"sc-1x9oq14-0 sc-3cb1l3-0 doSDez dgWykw\"])[last()-1]")
+    @FindBy (xpath = "//p[contains(text(),\"Онлайн\")]")
     private WebElement format;
 
     public CardPage(WebDriver driver) {

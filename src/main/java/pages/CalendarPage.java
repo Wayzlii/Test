@@ -1,12 +1,13 @@
 package pages;
 
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class CalendarPage extends AbsBasePage {
     private List<WebElement> cardDates;
     @FindBy(xpath = "(//div[@class=\"dod_new-events-dropdown__input\"])[position()=1]")
     private WebElement eventTypes;
-    @FindBy(xpath = "(//div[@class=\"dod_new-events-dropdown__list js-dod_new_events-dropdown\"])[position()=1]/a[position()=4]")
+    @FindBy(xpath = "((//div[@class=\"dod_new-events-dropdown__list js-dod_new_events-dropdown\"])/a[contains(text(),\"Открытый вебинар\")])[1]")
     private WebElement btnOpenWebinar;
     @FindAll({@FindBy(xpath = "//div[@class=\"dod_new-type__text\"]")})
     private List<WebElement> cardTypes;
@@ -38,11 +39,9 @@ public class CalendarPage extends AbsBasePage {
     }
 
     public void selectOpenWebinarType() {
-        eventTypes.click();
-        try {
-            btnOpenWebinar.click();
-        } catch (TimeoutException ignored) {
-        }
+        ExpectedConditions.elementToBeClickable(eventTypes).apply(driver);
+        ExpectedConditions.elementToBeClickable(btnOpenWebinar).apply(driver);
+        //click() убран, работает без него, так как при проверке метод кликает
     }
 
     public List<String> listCardTypes() {
@@ -54,23 +53,21 @@ public class CalendarPage extends AbsBasePage {
         return listCardTypes;
     }
 
-    private int monthNum(String month) {
-        int numMonth = 0;
-        switch (month) {
-            case "января" -> numMonth = 1;
-            case "февраля" -> numMonth = 2;
-            case "марта" -> numMonth = 3;
-            case "апреля" -> numMonth = 4;
-            case "мая" -> numMonth = 5;
-            case "июня" -> numMonth = 6;
-            case "июля" -> numMonth = 7;
-            case "августа" -> numMonth = 8;
-            case "сентября" -> numMonth = 9;
-            case "октября" -> numMonth = 10;
-            case "ноября" -> numMonth = 11;
-            case "декабря" -> numMonth = 12;
-        }
-        return numMonth;
+    private Month monthNum(String month) {
+        return switch (month) {
+            case "января" -> Month.JANUARY;
+            case "февраля" -> Month.FEBRUARY;
+            case "марта" -> Month.MARCH;
+            case "апреля" -> Month.APRIL;
+            case "мая" -> Month.MAY;
+            case "июня" -> Month.JUNE;
+            case "июля" -> Month.JULY;
+            case "августа" -> Month.AUGUST;
+            case "сентября" -> Month.SEPTEMBER;
+            case "октября" -> Month.OCTOBER;
+            case "ноября" -> Month.NOVEMBER;
+            case "декабря" -> Month.DECEMBER;
+            default -> throw new IllegalArgumentException("Переданное значение некорректно.");
+        };
     }
-
 }

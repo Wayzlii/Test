@@ -4,16 +4,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
 public class TestPage extends AbsBasePage {
 
-    @FindAll({@FindBy(xpath = "//div[@class=\"sc-18q05a6-1 bwGwUO\"]/a")})
+    @FindAll({@FindBy(xpath = "//div[contains(@class,\"sc-18q05a6-1\") and contains(@class,\"bwGwUO\")]/a")})
     private List<WebElement> cardElements;
-
-    private static final String URL = System.getProperty("test.page.url",
-            "https://otus.ru/catalog/courses?categories=testing");
 
     public TestPage(WebDriver driver) {
         super(driver);
@@ -26,7 +24,7 @@ public class TestPage extends AbsBasePage {
     public CardPage clickElement(String href) {
         for (WebElement element : cardElements) {
             if (element.getDomProperty("href").endsWith(href)) {
-                element.click();
+                ExpectedConditions.elementToBeClickable(element).apply(driver).click();
                 return new CardPage(driver);
             }
         }

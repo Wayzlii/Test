@@ -20,21 +20,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class OtusTest {
 
     private WebDriver driver;
-    private static String expectedUrl;
-    private static String expectedEventType;
+    private final String expectedUrl = System.getProperty("test.page.url",
+            "catalog/courses?categories=testing");
+    private final String expectedEventType = System.getProperty("expectedEventType", "Открытый вебинар");
     private MainPage mainPage;
     private static final String URL = System.getProperty("base.url", "https://otus.ru/");
-    ;
+
     private static final Browsers BROWSER =
             Browsers.valueOf(System.getProperty("browser", Browsers.FOX.name()).toUpperCase());
 
     private final Logger logger = LogManager.getLogger(OtusTest.class);
-
-    @BeforeAll
-    static void beforeAll() {
-        expectedUrl = System.getProperty("test.page.url", "https://otus.ru/catalog/courses?categories=testing");
-        expectedEventType = System.getProperty("expectedEventType", "Открытый вебинар");
-    }
 
     @BeforeEach
     void setUp() {
@@ -46,11 +41,9 @@ public class OtusTest {
     }
 
     @Test
-
-    public void checkCardsOnTestingPage() throws InterruptedException {
+    public void checkCardsOnTestingPage() {
         mainPage.selectNavigationBar().openTesting();
-        Thread.sleep(5000);
-        assertEquals(expectedUrl, driver.getCurrentUrl());
+        assertEquals(URL+expectedUrl, driver.getCurrentUrl());
         logger.info("Переход на страницу с курсами 'тестирования' успешен.");
 
         TestPage testPage = new TestPage(driver);
@@ -69,9 +62,10 @@ public class OtusTest {
     public void checkCardCompliance(String href, String title, String description, String duration, String format) {
         mainPage.selectNavigationBar().openTesting();
         TestPage testPage = new TestPage(driver);
+        mainPage.selectCookiePanel().clickConsentBtn();
         CardPage cardPage = testPage.clickElement(href);
 
-        assertEquals(System.getProperty("base.url") + href + "/", driver.getCurrentUrl());
+        assertEquals(URL + href + "/", driver.getCurrentUrl());
         logger.info("Ссылки на карточку совпадают.");
         assertEquals(title, cardPage.getTitleText());
         logger.info("Название совпадает.");
@@ -87,6 +81,7 @@ public class OtusTest {
     public void checkCalendarDates() {
         mainPage.selectNavigationBar().openCalendar();
         CalendarPage calendarPage = new CalendarPage(driver);
+        mainPage.selectSalePanel().clickCloseSale();
         List<LocalDate> dates = calendarPage.getDate();
         for (LocalDate date : dates) {
             assertTrue(date.isEqual(LocalDate.now()) || date.isAfter(LocalDate.now()));
@@ -98,6 +93,7 @@ public class OtusTest {
     public void checkCalendarTypeEvent() {
         mainPage.selectNavigationBar().openCalendar();
         CalendarPage calendarPage = new CalendarPage(driver);
+        mainPage.selectCookiePanel().clickConsentBtn();
         calendarPage.selectOpenWebinarType();
         List<String> types = calendarPage.listCardTypes();
         for (String type : types) {
