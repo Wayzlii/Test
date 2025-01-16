@@ -35,8 +35,6 @@ public class NavigationBar extends AbsCommon {
 
     public void openCalendar() {
         openStudy();
-        try {
-            ExpectedConditions.elementToBeClickable(calendar).apply(driver).click();
-        } catch (TimeoutException ignored){} //Выпадает ошибка timeOutException. Сделала игнор, так как очень долго приходится ждать ответа от сайта.
+        ExpectedConditions.elementToBeClickable(calendar).apply(driver).click();
     }
 }
