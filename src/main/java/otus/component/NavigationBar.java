@@ -1,4 +1,4 @@
-package otus.components;
+package otus.component;
 
 import lombok.Getter;
 import org.openqa.selenium.NoSuchElementException;
@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import otus.common.AbsCommon;
 import otus.common.waiters.Waiter;
@@ -23,11 +24,6 @@ public class NavigationBar extends AbsCommon {
     @Getter
     private String courseCategoryName;
 
-    public NavigationBar(WebDriver driver,
-                         Waiter waiter) {
-        super(driver, waiter);
-    }
-
     @FindBy(xpath = "//span[contains(text(),'Обучение')]")
     private WebElement study;
 
@@ -36,6 +32,11 @@ public class NavigationBar extends AbsCommon {
 
     @FindAll({@FindBy(xpath = "//div/child::p[contains(text(),'Все курсы')]/parent::*/div/a")})
     private List<WebElement> coursesCategory;
+
+    @Autowired
+    public NavigationBar(WebDriver driver, Waiter waiter) {
+        super(driver, waiter);
+    }
 
     public NavigationBar openStudy() {
         try {
@@ -46,7 +47,7 @@ public class NavigationBar extends AbsCommon {
         return this;
     }
 
-    public NavigationBar clickCourseCategory() {
+    public NavigationBar clickRandomCourseCategory() {
         int courseCategoryNum = random.nextInt(0, coursesCategory.size());
         courseCategoryName = coursesCategory.get(courseCategoryNum).getText();
         courseCategoryName = courseCategoryName.split("\\(")[0].trim();

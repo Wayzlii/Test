@@ -1,12 +1,17 @@
 package otus.pages;
 
-import org.openqa.selenium.*;
-import org.openqa.selenium.support.FindAll;
+import org.apache.commons.lang3.tuple.Pair;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import otus.common.waiters.Waiter;
-import otus.components.NavigationBar;
+import otus.component.NavigationBar;
+import otus.jsoup.Card;
+import otus.jsoup.JsoupDocument;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,20 +22,15 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class CoursePage extends AbsBasePage<CoursePage> {
 
     private final String courseUrl;
-
     private final CardPage cardPage;
 
-    @FindAll(@FindBy(xpath = "//p[contains(text(), 'Направление')]/parent::div/following-sibling::div/div/div/div"))
-    private List<WebElement> coursePrograms;
+    @FindBy(xpath = "//div/button[contains(text(),'Показать еще')]")
+    private WebElement btnShowMore;
 
     @FindBy(xpath = "(//section)[position()=3]")
     private WebElement panel;
 
-    @FindBy(xpath = "//div/button[contains(text(),'Показать еще')]")
-    WebElement btnShowMore;
-
-    public CoursePage(WebDriver driver,
-                      Waiter waiter,
+    public CoursePage(WebDriver driver, Waiter waiter,
                       @Value("${base.url}") String baseUrl,
                       @Value("${catalog.course.url}") String courseUrl,
                       CardPage cardPage,
@@ -38,18 +38,6 @@ public class CoursePage extends AbsBasePage<CoursePage> {
         super(driver, waiter, baseUrl, navigationBar);
         this.courseUrl = courseUrl;
         this.cardPage = cardPage;
-    }
-
-    public CoursePage selectCourseProgram(String courseName) {
-        Optional<WebElement> foundCourseElement = coursePrograms.stream()
-                .filter(element -> element.getText().equals(courseName))
-                .findFirst();
-        assertThat(foundCourseElement.isPresent()).isTrue();
-        assertThat(foundCourseElement.get().getText()).as("").isEqualTo(courseName);
-        scrollToElement(foundCourseElement.get());
-        foundCourseElement.get()
-                .click();
-        return this;
     }
 
     public CardPage clickCardProgram(String courseName) {
@@ -74,21 +62,18 @@ public class CoursePage extends AbsBasePage<CoursePage> {
         return this;
     }
 
-    public CoursePage waitForLoad() {
-        waiter.waitForTime();
-        return this;
-    }
-    public CoursePage openAllProgramCard() {
-        while (waiter.waitForElementClickableByLocator(btnShowMore)) {
-            scrollToElement(btnShowMore);
-            btnShowMore.click();
-        }
-        return this;
+    public List<Card> minDateCards() {
+        JsoupDocument jsoupDocument = new JsoupDocument(this);
+        return jsoupDocument.getCardsMin();
     }
 
-    // прокручивает страницу до необходимого элемента
-    private void scrollToElement(WebElement element) {
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+    public List<Card> maxDateCards() {
+        JsoupDocument jsoupDocument = new JsoupDocument(this);
+        return jsoupDocument.getCardsMax();
+    }
+
+    public Pair<Card, CardPage> openCard(Card card) {
+        return Pair.of(card, cardPage.open(card.href()));
     }
 
     @Override
@@ -96,9 +81,20 @@ public class CoursePage extends AbsBasePage<CoursePage> {
         return courseUrl;
     }
 
-    @Override
-    protected CoursePage getCoursePage() {
+    public CoursePage openAllProgramCard() {
+        while (waiter.waitForElementClickable(btnShowMore)) {
+            scrollToElement(btnShowMore);
+            btnShowMore.click();
+        }
         return this;
     }
 
+    private void scrollToElement(WebElement element) {
+        ((JavascriptExecutor) driver).executeScript("""
+                arguments[0].scrollIntoView(
+                          {behavior: "auto", block: "center", inline: "center"}
+                          );
+                        """, element);
+
+    }
 }

@@ -1,13 +1,14 @@
 package otus.pages;
 
-import otus.common.AbsCommon;
 import org.openqa.selenium.WebDriver;
+import org.springframework.beans.factory.annotation.Lookup;
+import otus.common.AbsCommon;
 import otus.common.waiters.Waiter;
-import otus.components.NavigationBar;
+import otus.component.NavigationBar;
 
 public abstract class AbsBasePage<T> extends AbsCommon {
 
-    protected final String baseUrl;
+    private final String baseUrl;
 
     protected final NavigationBar navigationBar;
 
@@ -16,9 +17,6 @@ public abstract class AbsBasePage<T> extends AbsCommon {
         this.baseUrl = baseUrl;
         this.navigationBar = navigationBar;
     }
-    public String getPageSource() {
-        return driver.getPageSource();
-    }
 
     protected abstract String getPath();
 
@@ -26,21 +24,32 @@ public abstract class AbsBasePage<T> extends AbsCommon {
         driver.get(getUrl());
         return (T) this;
     }
-    public T openStudy () {
+
+    public T open(String href) {
+        driver.get(baseUrl + href);
+        return (T) this;
+    }
+
+    public T openStudy() {
         navigationBar.openStudy();
         return (T) this;
     }
-    public CoursePage clickCourseCategory() {
-        navigationBar.clickCourseCategory();
-        return getCoursePage();
+
+    public String getPageSource() {
+        return driver.getPageSource();
     }
 
-    protected abstract CoursePage getCoursePage();
+    public CoursePage clickCourseCategory() {
+        navigationBar.clickRandomCourseCategory();
+        return getCoursePage();
+    }
 
     public String getUrl() {
         return baseUrl + getPath();
     }
-    public String getBaseUrl() {
-        return baseUrl;
+
+    @Lookup
+    protected CoursePage getCoursePage() {
+        return null;
     }
 }
